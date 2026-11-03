@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copia la config actual de ~/.config al repo (config/) y hace commit.
-# Uso: ./snap.sh "mensaje"
+# Uso: ./snap.sh "mensaje" [--push]   (--push sube el commit a GitHub)
 cd "$(dirname "$0")" || exit 1
 for p in hypr waybar rofi swayosd kitty cosmic-shell; do
   mkdir -p "config/$p"
@@ -13,3 +13,4 @@ for p in hypr waybar rofi swayosd kitty cosmic-shell; do
 done
 git add -A
 git commit -qm "${1:-snapshot}" && git log --oneline | head -1
+[ "${2:-}" = "--push" ] && git push -q && echo "subido a GitHub"
