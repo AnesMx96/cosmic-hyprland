@@ -1,0 +1,2 @@
+# Fondo de pantalla animado
+mpvpaper

@@ -1,0 +1,42 @@
+/* Lanzador en cuadrícula · Cosmic Glass */
+configuration { show-icons: true; icon-theme: "breeze-dark"; }
+* {
+    font: "Inter 10";
+    background-color: transparent;
+    text-color: #e3efff;
+    margin: 0; padding: 0; spacing: 0;
+}
+window {
+    location: northwest; anchor: northwest;
+    x-offset: 12px; y-offset: 70px;
+    width: 470px;
+    background-color: #0b1222;
+    border: 1px;
+    border-color: #ffffff4d;
+    border-radius: 24px;
+}
+mainbox { padding: 14px; spacing: 12px; children: [ inputbar, listview ]; }
+inputbar {
+    padding: 9px 14px; spacing: 10px;
+    border: 1px; border-color: #ffffff24; border-radius: 18px;
+    background-color: #ffffff08;
+    children: [ prompt, entry ];
+}
+prompt { text-color: #8cc3ff; }
+entry  { text-color: #f2f8ff; placeholder: "Buscar app…"; placeholder-color: #e1eeff73; }
+listview {
+    columns: 4; lines: 4; fixed-height: true; fixed-columns: true;
+    scrollbar: false; spacing: 8px; flow: horizontal; cycle: true;
+}
+element {
+    orientation: vertical;
+    padding: 12px 4px 10px 4px; spacing: 8px;
+    border: 1px; border-color: transparent; border-radius: 18px;
+}
+element selected.normal {
+    background-color: #ffffff14;
+    border-color: #ffffff4d;
+    text-color: #ffffff;
+}
+element-icon { size: 40px; horizontal-align: 0.5; }
+element-text { horizontal-align: 0.5; vertical-align: 0.5; text-color: inherit; }

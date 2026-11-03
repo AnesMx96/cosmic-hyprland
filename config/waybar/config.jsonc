@@ -1,0 +1,255 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 47,
+  "margin": "0",
+  "spacing": 6,
+  "modules-left": [
+    "custom/launcher"
+  ],
+  "modules-center": [
+    "hyprland/workspaces",
+    "clock",
+    "pulseaudio",
+    "group/brightness",
+    "network",
+    "bluetooth",
+    "custom/usb",
+    "battery",
+    "cpu#busy",
+    "custom/notification",
+    "group/power"
+  ],
+  "modules-right": [],
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": false,
+    "sort-by": "number",
+    "show-special": false,
+    "persistent-workspaces": {
+      "eDP-1": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "HDMI-A-1": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  },
+  "clock": {
+    "format": "{:%H:%M   %d/%m}",
+    "interval": 30,
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "on-click": "pkill -x gnome-calendar || gnome-calendar",
+    "locale": "es_ES.UTF-8",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "on-scroll": 1,
+      "weeks-pos": "",
+      "format": {
+        "months": "<span color='#ffffff'><b>{}</b></span>",
+        "days": "<span color='#cfe3ff'>{}</span>",
+        "weekdays": "<span color='#8cc3ff'><b>{}</b></span>",
+        "today": "<span background='#8cc3ff' color='#06101f'><b> {} </b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_down",
+      "on-scroll-down": "shift_up",
+      "on-click-middle": "shift_reset"
+    }
+  },
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "󰖁",
+    "format-icons": {
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "scroll-step": 5
+  },
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃠"
+    ],
+    "on-scroll-up": "brightnessctl set 5%+",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "tooltip": false
+  },
+  "backlight/slider": {
+    "min": 5,
+    "max": 100,
+    "orientation": "horizontal"
+  },
+  "group/brightness": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "brightness-child",
+      "transition-left-to-right": true,
+      "click-to-reveal": true
+    },
+    "modules": [
+      "backlight",
+      "backlight/slider"
+    ]
+  },
+  "network": {
+    "format-wifi": "{icon}",
+    "format-icons": [
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󰤭",
+    "format-disabled": "󰤭",
+    "tooltip-format-wifi": "<b>{essid}</b>  ·  {signalStrength}%  ·  {frequency} GHz\n󰩟  {ipaddr}/{cidr}  ·  puerta {gwaddr}\n󰇚  {bandwidthDownBytes}    󰕒  {bandwidthUpBytes}",
+    "tooltip-format-ethernet": "<b>Cable</b>  ·  {ifname}\n󰩟  {ipaddr}/{cidr}\n󰇚  {bandwidthDownBytes}    󰕒  {bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Sin conexión",
+    "tooltip-format-disabled": "Wi-Fi desactivado · pulsa para activarlo",
+    "on-click": "qs -p $HOME/.config/cosmic-shell ipc call cc wifi",
+    "interval": 3,
+    "on-click-right": "nm-connection-editor",
+    "on-click-middle": "pkill -x rofi || python ~/.config/waybar/scripts/wifi-menu.py"
+  },
+  "custom/usb": {
+    "exec": "$HOME/.config/waybar/scripts/usb.py status",
+    "return-type": "json",
+    "hide-empty-text": true,
+    "format": "{text}",
+    "interval": 3,
+    "on-click": "$HOME/.config/waybar/scripts/usb.py open",
+    "on-click-right": "$HOME/.config/waybar/scripts/usb.py eject"
+  },
+  "battery": {
+    "format": "{icon}  {capacity}%",
+    "format-charging": "󰂄  {capacity}%",
+    "format-icons": [
+      "󰁺",
+      "󰁼",
+      "󰁾",
+      "󰂀",
+      "󰁹"
+    ],
+    "states": {
+      "warning": 25,
+      "critical": 12
+    },
+    "tooltip-format": "<b>{capacity}%</b>  ·  {timeTo}\n󱐋  {power:.1f} W  ·  salud {health}%  ·  {cycles} ciclos",
+    "on-click": "pkill -x rofi || ~/.config/waybar/scripts/battery.sh",
+    "interval": 20,
+    "format-plugged": "󰚥  {capacity}%",
+    "format-full": "󰁹  {capacity}%"
+  },
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 400,
+      "children-class": "power-child",
+      "transition-left-to-right": false,
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/power",
+      "custom/suspend",
+      "custom/logout",
+      "custom/reboot",
+      "custom/shutdown"
+    ]
+  },
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "tooltip-format": "Suspender",
+    "on-click": "systemctl suspend"
+  },
+  "custom/logout": {
+    "format": "󰍃",
+    "tooltip-format": "Cerrar sesión",
+    "on-click": "hyprctl dispatch 'hl.dsp.exit()'"
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "tooltip-format": "Reiniciar",
+    "on-click": "systemctl reboot"
+  },
+  "custom/shutdown": {
+    "format": "󰐥",
+    "tooltip-format": "Apagar",
+    "on-click": "systemctl poweroff"
+  },
+  "cpu#busy": {
+    "format": "",
+    "format-busy": "󰔟",
+    "states": {
+      "busy": 70
+    },
+    "interval": 2,
+    "tooltip": false
+  },
+  "custom/launcher": {
+    "format": "󰣇",
+    "tooltip-format": "Aplicaciones",
+    "on-click": "$HOME/.config/hypr/scripts/glass/launcher.sh",
+    "on-click-right": "pkill -x rofi || rofi -show drun -theme ~/.config/rofi/launcher-grid.rasi"
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱 {device_battery_percentage}%",
+    "tooltip-format": "Bluetooth {status}  ·  {controller_alias}",
+    "tooltip-format-off": "Bluetooth apagado · clic derecho para encender",
+    "tooltip-format-connected": "<b>{controller_alias}</b>\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "󰂱  {device_alias}",
+    "tooltip-format-enumerate-connected-battery": "󰂱  {device_alias}  ·  󰥉 {device_battery_percentage}%",
+    "on-click": "qs -p $HOME/.config/cosmic-shell ipc call cc bluetooth",
+    "on-click-right": "sh -c 'bluetoothctl show | grep -q \"Powered: yes\" && bluetoothctl power off || bluetoothctl power on'",
+    "on-click-middle": "blueman-manager"
+  },
+  "custom/notification": {
+    "exec": "cat $HOME/.cache/cosmic-shell/notif.json 2>/dev/null || echo '{\"alt\":\"none\",\"class\":\"none\"}'",
+    "return-type": "json",
+    "escape": true,
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰂚",
+      "notification": "󱅫",
+      "dnd-none": "󰂛",
+      "dnd-notification": "󰂛",
+      "inhibited-none": "󰂚",
+      "inhibited-notification": "󱅫",
+      "dnd-inhibited-none": "󰂛",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd": "󰂛"
+    },
+    "tooltip": true,
+    "on-click": "qs -p $HOME/.config/cosmic-shell ipc call cc toggle",
+    "on-click-right": "qs -p $HOME/.config/cosmic-shell ipc call notifs toggleDnd",
+    "interval": 1
+  }
+}

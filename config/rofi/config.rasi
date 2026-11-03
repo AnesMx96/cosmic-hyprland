@@ -1,0 +1,44 @@
+configuration {
+    modi: "drun,run";
+    show-icons: true;
+    drun-display-format: "{name}";
+    font: "Inter 11";
+}
+
+* {
+    background: #090914;
+    foreground: #e5e7ff;
+    selected: #39265f;
+    active: #38bdf8;
+    border-color: #9b5cff;
+}
+
+window {
+    width: 600px;
+    border: 2px;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+element {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+element selected {
+    background-color: @selected;
+}
+
+inputbar {
+    padding: 12px;
+    border-radius: 10px;
+}
+
+configuration {
+    kb-cancel: "Escape,Super+q";
+}
+
+configuration {
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+}

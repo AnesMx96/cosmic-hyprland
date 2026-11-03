@@ -1,0 +1,12 @@
+# Ajustes propios de cada equipo
+config/hypr/cfg/local.lua
+# Imágenes personales / con derechos (el instalador genera las suyas)
+config/hypr/lock-bg.png
+config/hypr/lock-avatar.png
+config/hypr/wallpaper.*
+*.mp4
+*.webm
+# Basura
+*.bak*
+*.backup*
+__pycache__/

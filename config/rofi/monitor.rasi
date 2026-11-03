@@ -1,0 +1,67 @@
+/* Selector de pantallas: cristal azul de Waybar, con contraste suficiente. */
+* {
+    font: "Inter 11";
+    background-color: transparent;
+    text-color: #eaf3ff;
+    accent: #8cc3ff;
+}
+
+window {
+    width: 560px;
+    padding: 16px;
+    border: 1px;
+    border-color: rgba(255, 255, 255, 55%);
+    border-radius: 18px;
+    background-color: #0b1222;
+}
+
+mainbox {
+    spacing: 12px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    padding: 10px 14px;
+    spacing: 8px;
+    border: 1px;
+    border-radius: 12px;
+    border-color: rgba(140, 195, 255, 35%);
+    background-color: rgba(255, 255, 255, 8%);
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    text-color: #f2f8ff;
+    placeholder: "Elegir modo...";
+    placeholder-color: rgba(234, 243, 255, 65%);
+}
+
+listview {
+    lines: 4;
+    spacing: 5px;
+    scrollbar: false;
+}
+
+element {
+    padding: 11px 14px;
+    border: 1px;
+    border-radius: 11px;
+    border-color: transparent;
+}
+
+element-text {
+    text-color: #eaf3ff;
+}
+
+element selected {
+    border-color: rgba(140, 195, 255, 65%);
+    background-color: rgba(127, 196, 255, 28%);
+}
+
+element selected element-text {
+    text-color: #ffffff;
+}

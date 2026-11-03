@@ -1,0 +1,28 @@
+* {
+    fg: #dbe7ff;
+    accent: #7fc4ff;
+    font: "Inter 11";
+}
+window {
+    background-color: #0b1222;
+    border: 1px;
+    border-color: rgba(255, 255, 255, 40%);
+    border-radius: 18px;
+    width: 560px;
+    padding: 14px;
+}
+mainbox { background-color: transparent; spacing: 10px; children: [inputbar, listview]; }
+inputbar {
+    background-color: rgba(255, 255, 255, 8%);
+    border-radius: 12px;
+    padding: 10px 14px;
+    spacing: 8px;
+    children: [prompt, entry];
+}
+prompt { background-color: transparent; text-color: @accent; }
+entry { background-color: transparent; text-color: @fg; placeholder: "Buscar..."; placeholder-color: rgba(219, 231, 255, 50%); }
+listview { background-color: transparent; lines: 8; spacing: 4px; scrollbar: false; }
+element { background-color: transparent; padding: 8px 12px; border-radius: 10px; text-color: @fg; }
+element selected.normal { background-color: rgba(90, 169, 255, 28%); text-color: #ffffff; }
+element-text { background-color: transparent; text-color: inherit; }
+element-icon { background-color: transparent; size: 22px; }

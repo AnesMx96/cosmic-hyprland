@@ -1,0 +1,48 @@
+# Núcleo de Hyprland
+hyprland
+hyprlock
+hypridle
+hyprsunset
+hyprpicker
+hyprpolkitagent
+xdg-desktop-portal-hyprland
+# Shell, barra, menús
+quickshell
+qt6-5compat
+qt6-svg
+waybar
+rofi
+rofi-emoji
+swayosd
+# Terminal y fuentes
+kitty
+inter-font
+ttf-jetbrains-mono-nerd
+otf-material-icons
+# Sistema
+pipewire-pulse
+wireplumber
+networkmanager
+network-manager-applet
+bluez
+bluez-utils
+blueman
+power-profiles-daemon
+brightnessctl
+playerctl
+pavucontrol
+# Utilidades usadas por los scripts
+cliphist
+wl-clipboard
+grim
+slurp
+wtype
+jq
+python
+imagemagick
+libnotify
+rsync
+# Apps que usan los atajos (cámbialas en cfg/binds.lua si prefieres otras)
+dolphin
+firefox
+gnome-calendar

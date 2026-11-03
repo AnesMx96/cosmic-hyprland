@@ -1,0 +1,24 @@
+/* Menú de apagado · Cosmic Glass */
+* {
+    font: "Inter 11";
+    background-color: transparent; text-color: #e3efff;
+    margin: 0; padding: 0; spacing: 0;
+}
+window {
+    location: center; anchor: center; width: 640px;
+    background-color: #0b1222;
+    border: 1px; border-color: #ffffff4d; border-radius: 28px;
+}
+mainbox { padding: 18px; spacing: 14px; children: [ message, listview ]; }
+message { padding: 4px 8px; }
+textbox { horizontal-align: 0.5; text-color: #e1eeffcc; }
+inputbar { enabled: false; }
+listview { columns: 5; lines: 1; spacing: 12px; scrollbar: false; fixed-height: true; flow: horizontal; }
+element {
+    orientation: vertical; padding: 18px 4px;
+    border: 1px; border-color: #ffffff1f; border-radius: 22px;
+    background-color: #ffffff05;
+}
+element selected.normal { background-color: #ffffff17; border-color: #ffffff59; text-color: #ffffff; }
+element selected.urgent { background-color: #ff6b8b4d; border-color: #ff8ca5bf; text-color: #ffffff; }
+element-text { horizontal-align: 0.5; text-color: inherit; }
