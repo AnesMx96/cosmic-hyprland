@@ -2,13 +2,15 @@
 
 <img src="screenshots/hero.webp" alt="Agujero negro animado de Hyprgravity" width="100%">
 
-# ✦ Hyprgravity
+# ✦ Hyprgravity · Hyprland dotfiles for Arch Linux
 
-**Un agujero negro de verdad en tu Hyprland.**
+**Hyprland rice para Arch Linux y EndeavourOS con un agujero negro de verdad.**
 
 Luz curvada por la gravedad, calculada en tu GPU. Shell propia, modo oscuro en todo el sistema y un instalador que hace el trabajo por ti.
 
-Hyprland 0.57 · Lua · Quickshell · EndeavourOS, Arch y NixOS
+Hyprland 0.57 · Quickshell · Waybar · Wayland · Arch Linux, EndeavourOS y NixOS
+
+*Black hole Hyprland rice and dotfiles: one-line installer, GLSL shader, dark mode everywhere.*
 
 [**Instalar**](#instalación) · [Qué incluye](#qué-incluye) · [Atajos](#atajos-principales) · [Problemas](#si-algo-falla)
 
