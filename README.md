@@ -1,35 +1,43 @@
 <div align="center">
 
-# ✦ Cosmic
+<img src="screenshots/hero.webp" alt="Agujero negro animado de Hyprgravity" width="100%">
 
-**Dotfiles de Hyprland con estética cósmica seria**
-azul noche · blanco · acento cian · barra de cristal · todo lo demás sólido
+# ✦ Hyprgravity
 
-Hyprland 0.57 (config en **Lua**) · Shell propia en **Quickshell** · Arch Linux y NixOS
+**Un agujero negro de verdad en tu Hyprland.**
 
-> 🚧 **En desarrollo activo.** Funciona y lo uso a diario, pero voy añadiendo piezas.
-> Mira el [estado](#estado) para ver qué está hecho y qué falta.
+Luz curvada por la gravedad, calculada en tu GPU. Shell propia, modo oscuro en todo el sistema y un instalador que hace el trabajo por ti.
 
-![Escritorio](screenshots/desktop.jpg)
+Hyprland 0.57 · Lua · Quickshell · EndeavourOS, Arch y NixOS
+
+[**Instalar**](#instalación) · [Qué incluye](#qué-incluye) · [Atajos](#atajos-principales) · [Problemas](#si-algo-falla)
+
+![Lanzador, agujero negro y panel de control](screenshots/shell.jpg)
 
 </div>
 
 ## Capturas
 
-| Centro de control | Lanzador |
-|---|---|
-| ![Centro de control](screenshots/control-center.jpg) | ![Lanzador](screenshots/launcher.jpg) |
-
-| Pantalla de bloqueo |
+| Menú de apagado |
 |---|
-| ![Bloqueo](screenshots/lockscreen.jpg) |
+| ![Menú de apagado](screenshots/power.jpg) |
+
+| Panel de control | Lanzador |
+|---|---|
+| ![Panel de control](screenshots/control-center.jpg) | ![Lanzador](screenshots/launcher.jpg) |
+
+| Escritorio | Pantalla de bloqueo |
+|---|---|
+| ![Escritorio](screenshots/desktop.jpg) | ![Bloqueo](screenshots/lockscreen.jpg) |
+
+<sub>La animación y las vistas del panel, el lanzador y el menú de apagado son renders de la interfaz real con datos de ejemplo. El escritorio y la pantalla de bloqueo son capturas de una versión anterior.</sub>
 
 ## Qué incluye
 
 - **Barra (waybar) de cristal**: lanzador, escritorios, reloj con calendario del mes, volumen, brillo, Wi-Fi, Bluetooth, USB, batería con tooltip completo y campana de notificaciones.
 - **Cosmic Shell (Quickshell)**: centro de control al estilo Material You, con toggles (Wi-Fi, Bluetooth, No molestar, luz nocturna, cafeína, modo juego), páginas de Wi-Fi y Bluetooth para conectarte desde ahí, sliders de volumen, micro y brillo, tarjeta de música con carátula y servidor de notificaciones propio con toasts animados.
 - **Pantalla de bloqueo (hyprlock)**: diseño editorial con reloj grande, saludo, avatar, música y barra de estado (red, batería, clima).
-- **Agujero negro en la GPU**: shader con lente gravitatoria real en el panel, el lanzador y el menú de apagado.
+- **Agujero negro en la GPU**: cada píxel traza un rayo de luz curvado por la gravedad. Está en el panel, el lanzador y el menú de apagado, y no consume nada con ellos cerrados.
 - **Lanzador (Quickshell)**: las apps salen en espiral del agujero negro.
 - **Menú de apagado a pantalla completa**, visualizador de audio y anillos de CPU, memoria y temperatura.
 - **Modo oscuro en todo el sistema**: GTK, Qt, KDE y Chromium.
@@ -40,21 +48,42 @@ Hyprland 0.57 (config en **Lua**) · Shell propia en **Quickshell** · Arch Linu
 
 ## Instalación
 
-### Arch Linux (y derivadas: EndeavourOS, CachyOS…)
+### EndeavourOS, Arch y derivadas
+
+Abre una terminal, pega esto y pulsa Enter:
 
 ```bash
-git clone https://github.com/AnesMx96/cosmic-hyprland.git ~/cosmic
-cd ~/cosmic
-./install.sh
+git clone https://github.com/AnesMx96/cosmic-hyprland.git ~/hyprgravity && ~/hyprgravity/install.sh
 ```
 
-El instalador:
-1. Instala las dependencias con `pacman` ([lista](packages/arch.txt)) y `mpvpaper` de AUR si tienes `paru` o `yay`.
-2. **Guarda tu config actual** en `~/.config/cosmic-backup-FECHA/` antes de tocar nada.
-3. Copia la config a `~/.config` y genera tu avatar, el fondo de bloqueo y `cfg/local.lua`, con tu distribución de teclado si no es `es`.
-4. Ofrece activar NetworkManager, Bluetooth y power-profiles-daemon.
+Solo te hará **una pregunta**, y te pedirá tu contraseña cuando haga falta. Al terminar:
 
-Opciones: `--link` (enlaza al repo en vez de copiar, así un `git pull` lo actualiza todo), `--no-deps`, `--no-aur`, `--yes` y `--dry-run` (muestra lo que haría sin tocar nada).
+1. Reinicia el ordenador.
+2. Al iniciar sesión, elige **Hyprland** en el selector de sesión.
+3. Pulsa `SUPER+F1` para ver los atajos. `SUPER` es la tecla de Windows.
+
+Tu escritorio actual no se borra: puedes volver a él eligiéndolo al iniciar sesión.
+
+<details>
+<summary>Qué hace exactamente el instalador</summary>
+
+1. Actualiza el sistema e instala las dependencias ([lista](packages/arch.txt)) y `mpvpaper` de AUR. Si no tienes `yay` ni `paru`, instala `yay`.
+2. Comprueba que tienes Hyprland 0.57 o superior.
+3. **Guarda tu config actual** en `~/.config/hyprgravity-backup-FECHA/`.
+4. Copia la config a `~/.config` y genera tu avatar, el fondo de bloqueo y `cfg/local.lua`, con tu distribución de teclado.
+5. Pone el modo oscuro en GTK, Qt, KDE y Chromium.
+6. Activa NetworkManager, Bluetooth y power-profiles-daemon si hace falta. Si no tienes pantalla de inicio de sesión, instala y activa SDDM.
+
+Opciones: `--yes` (sin preguntas), `--dry-run` (muestra lo que haría sin tocar nada), `--link` (enlaza al repo, así un `git pull` lo actualiza todo), `--no-deps` y `--no-aur`.
+
+</details>
+
+### Si algo falla
+
+- **El instalador se para:** el detalle queda en `~/hyprgravity-install.log`. Puedes volver a lanzar `~/hyprgravity/install.sh` sin riesgo.
+- **No aparece el fondo de pantalla:** falta `mpvpaper`. Instálalo con `yay -S mpvpaper`.
+- **Quiero volver atrás:** elige tu escritorio anterior al iniciar sesión. Tu config antigua está en `~/.config/hyprgravity-backup-FECHA/`.
+- **Máquinas virtuales y Nvidia:** está probado en EndeavourOS con gráficos Intel Iris Xe. En Nvidia no lo he probado, y Hyprland necesita aceleración 3D, así que en una máquina virtual puede no arrancar.
 
 ### NixOS (flake + home-manager) · *experimental*
 
@@ -126,7 +155,7 @@ Necesita nixpkgs con **Hyprland ≥ 0.57**, porque la config está en Lua (`nixo
 ```
 config/
   hypr/            Hyprland (hyprland.lua + cfg/*.lua), hyprlock, hypridle, scripts
-  cosmic-shell/    Quickshell: centro de control y notificaciones
+  cosmic-shell/    Quickshell: panel, lanzador, menú de apagado, notificaciones y shader
   waybar/  rofi/  swayosd/  kitty/
 packages/          dependencias para Arch
 nix/  flake.nix    módulos de NixOS y home-manager
@@ -145,7 +174,9 @@ install.sh         instalador
 
 ## Créditos
 
-Inspirado en [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland), [caelestia](https://github.com/caelestia-dots/shell) y [HyDE](https://github.com/HyDE-Project/HyDE). No hay código copiado de ellos; la idea fue suya.
+Hyprgravity es la versión 2.0 de Cosmic, y por eso algunas carpetas y opciones de Nix siguen llamándose `cosmic`.
+
+Inspirado en [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland), [caelestia](https://github.com/caelestia-dots/shell), [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell) y [HyDE](https://github.com/HyDE-Project/HyDE). No hay código copiado de ellos; la idea fue suya.
 El fondo incluido (`config/hypr/assets/cosmic-wallpaper.jpg`) es original y se genera con ImageMagick.
 
 ## Licencia

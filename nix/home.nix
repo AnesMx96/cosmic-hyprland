@@ -62,7 +62,7 @@ in {
       # Utilidades de los scripts
       brightnessctl playerctl pavucontrol networkmanagerapplet blueman
       cliphist wl-clipboard grim slurp wtype jq python3 imagemagick libnotify rsync
-      socat xdg-utils util-linux curl btop cava
+      socat xdg-utils util-linux curl btop cava inetutils
       kdePackages.breeze-icons kdePackages.breeze kdePackages.breeze-gtk qt6ct
     ] ++ lib.optionals cfg.extraApps [ nautilus firefox gnome-calendar ];
 
