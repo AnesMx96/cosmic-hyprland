@@ -4,7 +4,7 @@ local rofi = "rofi -show drun -theme $HOME/.config/rofi/glass.rasi"
 
 -- Aplicaciones
 hl.bind(mod .. " + RETURN", hl.dsp.exec_cmd("kitty"))
-hl.bind(mod .. " + E", hl.dsp.exec_cmd("dolphin"))
+hl.bind(mod .. " + E", hl.dsp.exec_cmd("nautilus"))
 hl.bind(mod .. " + R", hl.dsp.exec_cmd(rofi))
 hl.bind(mod .. " + B", hl.dsp.exec_cmd("firefox --new-window https://www.google.com"))
 
@@ -33,7 +33,7 @@ hl.bind(mod .. " + SHIFT + Z", hl.dsp.window.move({ workspace = "special:magic" 
 hl.bind(mod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mod .. " + SHIFT + E", hl.dsp.exit())
 hl.bind(mod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
-hl.bind("PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
+hl.bind("PRINT", hl.dsp.exec_cmd(hypr .. "screenshot.sh --copy"))
 hl.bind(mod .. " + SHIFT + S", hl.dsp.exec_cmd(hypr .. "screenshot.sh"))
 hl.bind(mod .. " + SHIFT + V", hl.dsp.exec_cmd(hypr .. "clipboard-history.sh"))
 
@@ -76,12 +76,15 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+-- Barra y pantallas
 hl.bind("SUPER + H", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/bar-toggle.sh"))
 hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/monitor-manager.sh choose"))
 -- hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd("virt-manager"))
 
+-- Más aplicaciones
 hl.bind("SUPER + V", hl.dsp.exec_cmd("code"))
 hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd("virt-manager"))
+-- Otros
 hl.bind("CTRL + UP", hl.dsp.exec_cmd("wtype -m ctrl -k Up"), { repeating = true })
 hl.bind("CTRL + DOWN", hl.dsp.exec_cmd("wtype -m ctrl -k Down"), { repeating = true })
 hl.bind("F11", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))

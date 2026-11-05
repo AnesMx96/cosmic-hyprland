@@ -4,9 +4,12 @@
 import json
 import os
 import re
+import select
 import shutil
+import signal
 import subprocess
 import sys
+import time
 
 
 CONFIG = os.path.expanduser("~/.config")
@@ -76,12 +79,11 @@ def usb_devices():
     return devices
 
 
-def status():
+def status_line():
     devices = usb_devices()
     count = len(devices)
     if not count:
-        print(json.dumps({"text": "", "tooltip": ""}, ensure_ascii=False))
-        return
+        return json.dumps({"text": "", "tooltip": ""}, ensure_ascii=False)
 
     text = "󰕓 USB" if count == 1 else f"󰕓 USB ×{count}"
     lines = ["Almacenamiento USB conectado:"]
@@ -92,7 +94,46 @@ def status():
             lines.append(f"  {volume['label']} · {state}")
         if not device["volumes"]:
             lines.append("  Sin volúmenes montables")
-    print(json.dumps({"text": text, "tooltip": "\n".join(lines)}, ensure_ascii=False))
+    return json.dumps({"text": text, "tooltip": "\n".join(lines)}, ensure_ascii=False)
+
+
+def status():
+    print(status_line())
+
+
+def watch():
+    """Publica el estado solo cuando cambian los discos o los montajes."""
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
+    monitor = subprocess.Popen(
+        ["udevadm", "monitor", "--udev", "--subsystem-match=block"],
+        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+    )
+    uevents = monitor.stdout.fileno()
+    poller = select.poll()
+    poller.register(uevents, select.POLLIN)
+    mounts = open("/proc/self/mountinfo")
+    poller.register(mounts, select.POLLPRI | select.POLLERR)
+
+    def drain(timeout):
+        for fd, _ in poller.poll(timeout):
+            if fd != uevents:
+                mounts.seek(0)
+                mounts.read()
+            elif not os.read(uevents, 65536):
+                sys.exit(1)  # udevadm ha muerto: waybar relanza el módulo
+
+    last = None
+    try:
+        while True:
+            line = status_line()
+            if line != last:
+                print(line, flush=True)
+                last = line
+            drain(None)
+            time.sleep(0.5)  # un USB genera una ráfaga de eventos
+            drain(0)
+    finally:
+        monitor.terminate()
 
 
 def choose(options, prompt):
@@ -153,9 +194,9 @@ def open_volume(devices):
         notify("USB montado", "No pude localizar la carpeta montada.", True)
         return
     try:
-        subprocess.Popen(["dolphin", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(["xdg-open", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except OSError as exc:
-        notify("No se pudo abrir Dolphin", str(exc), True)
+        notify("No se pudo abrir el USB", str(exc), True)
 
 
 def eject(devices):
@@ -185,12 +226,14 @@ def main():
     action = sys.argv[1] if len(sys.argv) > 1 else "status"
     if action == "status":
         status()
+    elif action == "watch":
+        watch()
     elif action == "open":
         open_volume(usb_devices())
     elif action == "eject":
         eject(usb_devices())
     else:
-        raise SystemExit(f"Uso: {sys.argv[0]} [status|open|eject]")
+        raise SystemExit(f"Uso: {sys.argv[0]} [status|watch|open|eject]")
 
 
 if __name__ == "__main__":

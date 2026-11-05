@@ -28,9 +28,10 @@ hl.config({
         fullscreen_opacity = 1.0,
         shadow = {
             enabled = true,
-            range = 18,
+            range = 24,
             render_power = 3,
-            color = "rgba(020617AA)",
+            color = "rgba(0F2A63AA)",        -- halo azul, como el borde del disco
+            color_inactive = "rgba(02061766)",
         },
         blur = {
             enabled = true,

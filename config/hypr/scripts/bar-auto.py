@@ -17,7 +17,9 @@ def set_visible(v):
     if v == visible:
         return
     if v:
-        proc = subprocess.Popen(["waybar"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+        # monitor-manager.sh también la relanza: no abrir una segunda barra
+        if sh("pgrep", "-x", "waybar").returncode != 0:
+            proc = subprocess.Popen(["waybar"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
     else:
         sh("pkill", "-x", "waybar")
         if proc:

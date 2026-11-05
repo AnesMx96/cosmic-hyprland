@@ -44,7 +44,7 @@ in {
     extraApps = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Instalar las apps que usan los atajos (Dolphin, Firefox, calendario).";
+      description = "Instalar las apps que usan los atajos (Nautilus, Firefox, calendario).";
     };
   };
 
@@ -62,7 +62,9 @@ in {
       # Utilidades de los scripts
       brightnessctl playerctl pavucontrol networkmanagerapplet blueman
       cliphist wl-clipboard grim slurp wtype jq python3 imagemagick libnotify rsync
-    ] ++ lib.optionals cfg.extraApps [ kdePackages.dolphin firefox gnome-calendar ];
+      socat xdg-utils util-linux curl btop cava
+      kdePackages.breeze-icons kdePackages.breeze kdePackages.breeze-gtk qt6ct
+    ] ++ lib.optionals cfg.extraApps [ nautilus firefox gnome-calendar ];
 
     fonts.fontconfig.enable = true;
 

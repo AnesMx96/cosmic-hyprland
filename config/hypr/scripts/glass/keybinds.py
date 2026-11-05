@@ -2,7 +2,7 @@
 """Chuleta de atajos: lee los hl.bind() de tus .lua y los muestra en rofi."""
 import os, re, subprocess
 H = os.path.expanduser("~/.config/hypr/")
-FILES = ["cfg/binds.lua", "cfg/extras.lua", "hyprland.lua", "hyprland.conf"]
+FILES = ["cfg/binds.lua", "cfg/extras.lua", "hyprland.lua"]
 NICE = {
     "window.close": "Cerrar ventana", "window.fullscreen": "Pantalla completa / maximizar",
     "window.float": "Alternar flotante", "window.center": "Centrar ventana", "window.pseudo": "Pseudo-tile",

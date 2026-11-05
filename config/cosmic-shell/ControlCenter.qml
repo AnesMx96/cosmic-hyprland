@@ -7,15 +7,18 @@ import Quickshell.Networking
 import Quickshell.Bluetooth
 import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
+import Quickshell.Widgets
 
 PanelWindow {
     id: win
     property bool open: false
     property string page: "main"
     screen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name) ?? Quickshell.screens[0]
-    anchors { top: true; right: true; bottom: true }
-    margins { top: 62; right: 12; bottom: 12 }
+    // sin ancla arriba ni abajo: queda pegado a la derecha y centrado en vertical
+    anchors { right: true }
+    margins { right: 12 }
     implicitWidth: 440
+    implicitHeight: Math.min(830, (win.screen?.height ?? 1080) - 110)
     exclusiveZone: 0
     color: "transparent"
     visible: open || slide.running
@@ -23,7 +26,13 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: open ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
-    onOpenChanged: if (open) { page = "main"; Sys.refresh(); }
+    onOpenChanged: {
+        Sys.active = open;
+        if (!open) return;
+        page = "main"; Sys.refresh();
+        const h = new Date().getHours();
+        greeting = h < 6 ? "Buenas noches" : h < 13 ? "Buenos días" : h < 21 ? "Buenas tardes" : "Buenas noches";
+    }
 
     HyprlandFocusGrab { windows: [win]; active: win.open; onCleared: win.open = false }
     PwObjectTracker { objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource] }
@@ -34,23 +43,50 @@ PanelWindow {
     readonly property var wifiNet: wifiDev ? wifiDev.networks.values.find(n => n.connected) ?? null : null
     readonly property var btConnected: Bluetooth.devices.values.filter(d => d.connected)
     readonly property real bat: { const p = UPower.displayDevice?.percentage ?? 0; return p > 1 ? p : p * 100; }
-    readonly property string greeting: { const h = new Date().getHours(); return h < 6 ? "Buenas noches" : h < 13 ? "Buenos días" : h < 21 ? "Buenas tardes" : "Buenas noches"; }
+    property string greeting: ""
 
     Rectangle {
         id: panel
         width: parent.width; height: parent.height
         x: win.open ? 0 : width + 24
         opacity: win.open ? 1 : 0
+        scale: win.open ? 1 : 0.96
+        transformOrigin: Item.Right
         radius: Theme.radiusXl
-        color: Theme.bg
-        border.width: 1; border.color: Theme.edge
+        color: "transparent"
         focus: win.open
         Keys.onEscapePressed: win.page === "main" ? win.open = false : win.page = "main"
         Behavior on x { NumberAnimation { id: slide; duration: Theme.animSlow; easing.type: Easing.BezierSpline; easing.bezierCurve: Theme.curveDecel } }
         Behavior on opacity { NumberAnimation { duration: Theme.anim } }
+        Behavior on scale { NumberAnimation { duration: Theme.animSlow; easing.type: Easing.BezierSpline; easing.bezierCurve: Theme.curveDecel } }
 
-        // filo de luz superior, como la barra
-        Rectangle { anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter; anchors.topMargin: 1; width: parent.width - 2 * Theme.radiusXl; height: 1; color: Qt.rgba(1, 1, 1, 0.35) }
+        // El espacio: el agujero negro ocupa el hueco de las notificaciones y se aparta si hay alguna
+        ClippingRectangle {
+            anchors.fill: parent
+            radius: Theme.radiusXl
+            color: Theme.bg
+            CosmicBackdrop {
+                anchors.fill: parent
+                running: win.visible
+                holeY: parent.height - 16 - nlist.height / 2
+                holeR: Math.min(86, Math.max(46, nlist.height * 0.27))
+                strength: win.page === "main" && Notifs.count === 0 ? 1 : 0.4
+            }
+        }
+        CosmicBorder { anchors.fill: parent; running: win.visible }
+
+        // Entrada escalonada: de arriba abajo
+        Reveal { target: header; active: win.open; delay: 40 }
+        Reveal { target: stats; active: win.open; delay: 65 }
+        Reveal { target: tWifi; active: win.open; delay: 90 }
+        Reveal { target: tBt; active: win.open; delay: 120 }
+        Reveal { target: tDnd; active: win.open; delay: 150 }
+        Reveal { target: tNight; active: win.open; delay: 180 }
+        Reveal { target: tCaf; active: win.open; delay: 210 }
+        Reveal { target: tGame; active: win.open; delay: 240 }
+        Reveal { target: sliders; active: win.open; delay: 280 }
+        Reveal { target: media; active: win.open; delay: 330 }
+        Reveal { target: notifHead; active: win.open; delay: 370 }
 
         Item {
             id: pages
@@ -70,12 +106,9 @@ PanelWindow {
 
                 // Cabecera
                 RowLayout {
+                    id: header
                     Layout.fillWidth: true; spacing: 12
-                    Rectangle {
-                        Layout.preferredWidth: 48; Layout.preferredHeight: 48; radius: 24
-                        gradient: Gradient { GradientStop { position: 0; color: "#8cc3ff" } GradientStop { position: 1; color: "#5b6cff" } }
-                        Text { anchors.centerIn: parent; text: Sys.user.charAt(0).toUpperCase(); color: Theme.fgOnPrimary; font.family: Theme.font; font.pixelSize: 20; font.weight: Font.Bold }
-                    }
+                    OrbitAvatar { letter: Sys.user.charAt(0).toUpperCase(); running: win.visible }
                     ColumnLayout {
                         Layout.fillWidth: true; spacing: 2
                         Text { text: win.greeting + ", " + Sys.user; color: Theme.text; font.family: Theme.font; font.pixelSize: 16; font.weight: Font.DemiBold; elide: Text.ElideRight; Layout.fillWidth: true }
@@ -94,10 +127,20 @@ PanelWindow {
                     IconButton { icon: "power_settings_new"; danger: true; onClicked: { win.open = false; Sys.run(Sys.scripts + "powermenu.sh"); } }
                 }
 
+                // Rendimiento
+                RowLayout {
+                    id: stats
+                    Layout.fillWidth: true; Layout.leftMargin: 4; Layout.rightMargin: 4
+                    StatRing { Layout.fillWidth: true; title: "CPU"; value: Sys.cpu; text: Math.round(Sys.cpu * 100) + "%" }
+                    StatRing { Layout.fillWidth: true; title: "Memoria"; value: Sys.mem; text: Math.round(Sys.mem * 100) + "%" }
+                    StatRing { Layout.fillWidth: true; title: "Temperatura"; value: Math.min(1, Sys.temp / 100); text: Math.round(Sys.temp) + "°" }
+                }
+
                 // Toggles
                 GridLayout {
                     Layout.fillWidth: true; columns: 2; rowSpacing: 8; columnSpacing: 8
                     Tile {
+                        id: tWifi
                         Layout.fillWidth: true; icon: Networking.wifiEnabled ? "wifi" : "wifi_off"; title: "Wi-Fi"; expandable: true
                         subtitle: !Networking.wifiEnabled ? "Apagado" : (win.wifiNet?.name ?? "Sin conexión")
                         active: Networking.wifiEnabled
@@ -105,6 +148,7 @@ PanelWindow {
                         onExpand: win.page = "wifi"
                     }
                     Tile {
+                        id: tBt
                         Layout.fillWidth: true; title: "Bluetooth"; expandable: true
                         readonly property bool on: Bluetooth.defaultAdapter?.enabled ?? false
                         icon: on ? (win.btConnected.length ? "bluetooth_connected" : "bluetooth") : "bluetooth_disabled"
@@ -113,14 +157,15 @@ PanelWindow {
                         onToggled: if (Bluetooth.defaultAdapter) Bluetooth.defaultAdapter.enabled = !on
                         onExpand: win.page = "bt"
                     }
-                    Tile { Layout.fillWidth: true; icon: Notifs.dnd ? "notifications_off" : "notifications"; title: "No molestar"; subtitle: Notifs.dnd ? "Activado" : "Desactivado"; active: Notifs.dnd; onToggled: Notifs.dnd = !Notifs.dnd }
-                    Tile { Layout.fillWidth: true; icon: "nightlight"; title: "Luz nocturna"; subtitle: Sys.night ? "4500 K" : "Desactivada"; active: Sys.night; onToggled: Sys.toggleNight() }
-                    Tile { Layout.fillWidth: true; icon: "coffee"; title: "Cafeína"; subtitle: Sys.caffeine ? "Pantalla siempre encendida" : "Desactivada"; active: Sys.caffeine; onToggled: Sys.toggleCaffeine() }
-                    Tile { Layout.fillWidth: true; icon: "sports_esports"; title: "Modo juego"; subtitle: Sys.gaming ? "Sin efectos" : "Desactivado"; active: Sys.gaming; onToggled: Sys.toggleGaming() }
+                    Tile { id: tDnd; Layout.fillWidth: true; icon: Notifs.dnd ? "notifications_off" : "notifications"; title: "No molestar"; subtitle: Notifs.dnd ? "Activado" : "Desactivado"; active: Notifs.dnd; onToggled: Notifs.dnd = !Notifs.dnd }
+                    Tile { id: tNight; Layout.fillWidth: true; icon: "nightlight"; title: "Luz nocturna"; subtitle: Sys.night ? "4500 K" : "Desactivada"; active: Sys.night; onToggled: Sys.toggleNight() }
+                    Tile { id: tCaf; Layout.fillWidth: true; icon: "coffee"; title: "Cafeína"; subtitle: Sys.caffeine ? "Pantalla siempre encendida" : "Desactivada"; active: Sys.caffeine; onToggled: Sys.toggleCaffeine() }
+                    Tile { id: tGame; Layout.fillWidth: true; icon: "sports_esports"; title: "Modo juego"; subtitle: Sys.gaming ? "Sin efectos" : "Desactivado"; active: Sys.gaming; onToggled: Sys.toggleGaming() }
                 }
 
                 // Sliders
                 ColumnLayout {
+                    id: sliders
                     Layout.fillWidth: true; spacing: 8
                     FatSlider {
                         Layout.fillWidth: true
@@ -146,10 +191,11 @@ PanelWindow {
                     }
                 }
 
-                MediaCard { Layout.fillWidth: true }
+                MediaCard { id: media; Layout.fillWidth: true }
 
                 // Notificaciones
                 RowLayout {
+                    id: notifHead
                     Layout.fillWidth: true; Layout.topMargin: 4
                     Text { text: "Notificaciones"; color: Theme.text; font.family: Theme.font; font.pixelSize: 15; font.weight: Font.DemiBold }
                     Rectangle {
@@ -188,9 +234,9 @@ PanelWindow {
                     displaced: Transition { NumberAnimation { property: "y"; duration: Theme.anim; easing.type: Easing.OutCubic } }
 
                     ColumnLayout {
-                        anchors.centerIn: parent; spacing: 6; visible: Notifs.count === 0
-                        MIcon { Layout.alignment: Qt.AlignHCenter; name: Notifs.dnd ? "notifications_paused" : "notifications_none"; size: 44; color: Theme.faint }
-                        Text { Layout.alignment: Qt.AlignHCenter; text: Notifs.dnd ? "No molestar activado" : "Todo al día"; color: Theme.sub; font.family: Theme.font; font.pixelSize: 13 }
+                        anchors.centerIn: parent; anchors.verticalCenterOffset: -Math.min(86, Math.max(46, nlist.height * 0.27)) * 0.42; spacing: 6; visible: Notifs.count === 0
+                        MIcon { Layout.alignment: Qt.AlignHCenter; name: Notifs.dnd ? "notifications_paused" : "notifications_none"; size: 26; color: Theme.ice }
+                        Text { Layout.alignment: Qt.AlignHCenter; text: Notifs.dnd ? "No molestar" : "Todo al día"; color: Theme.ice; font.family: Theme.font; font.pixelSize: 13 }
                     }
                 }
             }

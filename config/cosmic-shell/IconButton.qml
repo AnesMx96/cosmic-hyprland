@@ -11,6 +11,8 @@ Rectangle {
     signal clicked()
     implicitWidth: 40; implicitHeight: 40
     radius: height / 2
+    border.width: bgIdle == "transparent" ? 0 : 1
+    border.color: ma.containsMouse ? Theme.edge : Theme.outline
     color: ma.containsMouse ? (danger ? Qt.darker(Theme.danger, 1.6) : bgHover) : bgIdle
     scale: ma.pressed ? 0.92 : 1
     Behavior on color { ColorAnimation { duration: Theme.animFast } }

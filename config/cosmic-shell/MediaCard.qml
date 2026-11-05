@@ -33,6 +33,13 @@ Rectangle {
 
     Timer { interval: 1000; running: card.visible && (card.player?.isPlaying ?? false); repeat: true; onTriggered: card.player.positionChanged() }
 
+    Visualizer {
+        anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
+        anchors.leftMargin: 12; anchors.rightMargin: 12
+        height: parent.height * 0.5
+        running: Sys.active && (card.player?.isPlaying ?? false)
+    }
+
     RowLayout {
         anchors.fill: parent; anchors.margins: 14; spacing: 14
         Rectangle {

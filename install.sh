@@ -127,6 +127,7 @@ else
     [ -f "$H/lock-bg.png" ] || run cp "$H/assets/cosmic-wallpaper.jpg" "$H/lock-bg.png"
 fi
 run chmod +x "$H"/scripts/*.sh "$H"/scripts/*/*.sh "$CONFIG"/waybar/scripts/* 2>/dev/null || true
+run "$H/scripts/glass/cosmic-dark.sh" && ok "Modo oscuro aplicado (GTK, Qt, KDE y Chromium)"
 
 # ------------------------------------------------------------ servicios
 if [ "$distro" = arch ] && [ "$DEPS" = 1 ]; then

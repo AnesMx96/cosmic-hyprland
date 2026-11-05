@@ -29,7 +29,11 @@ Hyprland 0.57 (config en **Lua**) · Shell propia en **Quickshell** · Arch Linu
 - **Barra (waybar) de cristal**: lanzador, escritorios, reloj con calendario del mes, volumen, brillo, Wi-Fi, Bluetooth, USB, batería con tooltip completo y campana de notificaciones.
 - **Cosmic Shell (Quickshell)**: centro de control al estilo Material You, con toggles (Wi-Fi, Bluetooth, No molestar, luz nocturna, cafeína, modo juego), páginas de Wi-Fi y Bluetooth para conectarte desde ahí, sliders de volumen, micro y brillo, tarjeta de música con carátula y servidor de notificaciones propio con toasts animados.
 - **Pantalla de bloqueo (hyprlock)**: diseño editorial con reloj grande, saludo, avatar, música y barra de estado (red, batería, clima).
-- **Menús (rofi)**: lanzador en cuadrícula, menú de apagado, Wi-Fi, emojis y chuleta de atajos generada a partir de tu config.
+- **Agujero negro en la GPU**: shader con lente gravitatoria real en el panel, el lanzador y el menú de apagado.
+- **Lanzador (Quickshell)**: las apps salen en espiral del agujero negro.
+- **Menú de apagado a pantalla completa**, visualizador de audio y anillos de CPU, memoria y temperatura.
+- **Modo oscuro en todo el sistema**: GTK, Qt, KDE y Chromium.
+- **Menús (rofi)**: Wi-Fi, emojis y chuleta de atajos generada a partir de tu config.
 - **OSD (swayosd)** de volumen y brillo.
 - **Gestos**: pellizco con 3 dedos = pantalla completa, 3 dedos a los lados = escritorios, 4 dedos = cambiar de ventana.
 - **Detalles**: fondo de vídeo que se pausa cuando hay ventanas, luz nocturna, cuentagotas, modo juego, portapapeles, barra que se oculta sola.
@@ -115,6 +119,7 @@ Necesita nixpkgs con **Hyprland ≥ 0.57**, porque la config está en Lua (`nixo
 | `SUPER+.` | Emojis |
 | `SUPER+Shift+N` | Luz nocturna |
 | `SUPER+G` | Modo juego |
+| `SUPER+Shift+M` | Modo de pantalla (extendido, duplicado…) |
 
 ## Estructura
 
@@ -132,9 +137,10 @@ install.sh         instalador
 
 - [x] Barra de cristal, centro de control, notificaciones, bloqueo, OSD, gestos
 - [x] Instalador para Arch y flake para NixOS
-- [ ] Lanzador de apps en Quickshell (sustituirá la cuadrícula de rofi)
+- [x] Lanzador de apps en Quickshell
 - [ ] Barra nueva en Quickshell
-- [ ] OSD y menú de apagado en Quickshell
+- [x] Menú de apagado en Quickshell
+- [ ] OSD en Quickshell
 - [ ] Probar el flake en un NixOS real
 
 ## Créditos

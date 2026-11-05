@@ -1,5 +1,7 @@
 #!/bin/sh
 pkill -x rofi && exit 0
+# Menú de Cosmic Shell; si la shell no está en marcha, el de rofi
+qs -p "$HOME/.config/cosmic-shell" ipc call power toggle 2>/dev/null && exit 0
 up=$(uptime -p | sed 's/up /Encendido: /;s/hours\?/h/;s/minutes\?/min/;s/days\?/d/')
 sel=$(printf '%s|' "<span size='22pt'>󰌾</span>
 Bloquear" "<span size='22pt'>󰤄</span>

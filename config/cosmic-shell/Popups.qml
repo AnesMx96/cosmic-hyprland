@@ -24,7 +24,7 @@ PanelWindow {
         id: col
         width: parent.width; spacing: 8
         Repeater {
-            model: Notifs.popups
+            model: ScriptModel { values: Notifs.popups }
             Item {
                 id: wrap
                 required property var modelData
@@ -40,12 +40,22 @@ PanelWindow {
                     onDismissed: wrap.modelData.dismiss()
                     HoverHandler { id: h }
                 }
-                Timer {
-                    id: timer
-                    readonly property bool critical: wrap.modelData?.urgency === NotificationUrgency.Critical
-                    interval: (wrap.modelData?.expireTimeout > 0 ? wrap.modelData.expireTimeout : 6000)
-                    running: !critical && !h.hovered
-                    onTriggered: Notifs.dropPopup(wrap.modelData)
+                // Vida del aviso: la línea se consume y se detiene con el ratón encima
+                readonly property bool critical: modelData?.urgency === NotificationUrgency.Critical
+                Rectangle {
+                    id: life
+                    visible: !wrap.critical
+                    anchors.bottom: card.bottom; anchors.left: card.left; anchors.margins: 14; anchors.bottomMargin: 7
+                    height: 2; radius: 1; color: Theme.primary
+                    width: (card.width - 28) * remaining
+                    property real remaining: 1
+                    NumberAnimation on remaining {
+                        from: 1; to: 0
+                        duration: wrap.modelData?.expireTimeout > 0 ? wrap.modelData.expireTimeout : 6000
+                        running: !wrap.critical
+                        paused: h.hovered
+                        onFinished: Notifs.dropPopup(wrap.modelData)
+                    }
                 }
             }
         }

@@ -6,7 +6,10 @@
 -- Cualquier pantalla: resolución preferida, posición automática
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
+hl.env("XCURSOR_THEME", "breeze_cursors")
 hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "breeze_cursors")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")   -- apps Qt en oscuro fuera de Plasma
 hl.env("HYPRCURSOR_SIZE", "24")
 
 require("cfg.look")

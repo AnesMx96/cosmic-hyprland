@@ -126,15 +126,28 @@ button, button:hover, button:focus, button:active { box-shadow: none; text-shado
 
 /* ---- Lanzador (izquierda) ---- */
 .modules-left { padding: 0 4px; }
+/* Botón: un agujero negro en miniatura. Solo se anima al pasar el ratón
+   para no redibujar la barra sin parar y gastar batería. */
 #custom-launcher {
-    color: #8cc3ff;
-    font-size: 18px;
-    padding: 0 14px 0 12px;
-    margin: 2px;
+    min-width: 26px;
+    min-height: 26px;
+    padding: 0;
+    margin: 2px 6px;
     border-radius: 999px;
-    transition: all 0.25s ease;
+    background-image: radial-gradient(circle closest-side,
+        #030819 0%, #061338 62%, #ffffff 67%, #d4e9f6 71%, #8cc3ff 79%,
+        rgba(44, 95, 148, 0.55) 88%, rgba(44, 95, 148, 0) 100%);
+    box-shadow: 0 0 7px rgba(140, 195, 255, 0.35);
+    transition: box-shadow 0.25s ease;
 }
-#custom-launcher:hover { color: #ffffff; text-shadow: 0 0 10px rgba(140, 195, 255, 0.9); }
+#custom-launcher label { text-shadow: none; }
+#custom-launcher:hover { animation: horizonte 1.6s ease-in-out infinite; }
+#custom-launcher:active { box-shadow: 0 0 16px rgba(255, 255, 255, 0.95); }
+@keyframes horizonte {
+    0%   { box-shadow: 0 0 7px rgba(140, 195, 255, 0.55); }
+    50%  { box-shadow: 0 0 15px rgba(212, 233, 246, 0.95), 0 0 3px rgba(201, 138, 107, 0.8); }
+    100% { box-shadow: 0 0 7px rgba(140, 195, 255, 0.55); }
+}
 
 /* ---- Bluetooth y campana ---- */
 #bluetooth.off, #bluetooth.disabled { color: rgba(225, 238, 255, 0.45); }

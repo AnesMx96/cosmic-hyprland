@@ -2,6 +2,9 @@
 # Fondo animado o estático con mpvpaper en todas las pantallas.
 # Orden de búsqueda: $COSMIC_WALLPAPER · ~/.config/hypr/wallpaper.* · ~/Videos/Wallpapers/dark-black-hole.mp4 · fondo incluido
 set -u
+# una sola ejecución a la vez, o acaban dos vídeos decodificándose a la vez
+exec 9>"${XDG_RUNTIME_DIR:-/tmp}/cosmic-wallpaper.lock"
+flock 9
 # las copias pueden estar congeladas (SIGSTOP) por wallpaper-pause.py: despertarlas y cerrarlas
 pkill -CONT -x mpvpaper 2>/dev/null; pkill -x mpvpaper 2>/dev/null
 for _ in 1 2 3 4 5; do pgrep -x mpvpaper >/dev/null || break; sleep 0.2; done
@@ -22,5 +25,9 @@ case "$wall" in
 esac
 mapfile -t outputs < <(hyprctl monitors -j 2>/dev/null | jq -r '.[].name')
 for output in "${outputs[@]}"; do
-    mpvpaper -p -o "$opts" "$output" "$wall" >/dev/null 2>&1 &
+    mpvpaper -p -o "$opts" "$output" "$wall" >/dev/null 2>&1 9>&- &
 done
+# wallpaper-pause.py solo reacciona a eventos: las copias nuevas nacen sin pausar
+( sleep 3
+  [ "$(hyprctl activeworkspace -j | jq -r .windows)" -gt 0 ] 2>/dev/null && pkill -STOP -x mpvpaper
+) 9>&- &

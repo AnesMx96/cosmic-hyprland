@@ -13,6 +13,7 @@ in {
     services.blueman.enable = lib.mkDefault true;
     services.power-profiles-daemon.enable = lib.mkDefault true;
     services.upower.enable = lib.mkDefault true;   # batería en la shell
+    services.udisks2.enable = lib.mkDefault true;  # montar USB desde la barra
 
     services.pipewire = {
       enable = lib.mkDefault true;

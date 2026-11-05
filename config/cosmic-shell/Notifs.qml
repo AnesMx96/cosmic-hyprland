@@ -13,7 +13,12 @@ Singleton {
     readonly property var list: server.trackedNotifications.values
     readonly property int count: list.length
 
+    // sube cada minuto para que "hace X min" se recalcule en las tarjetas ya creadas
+    property int tick: 0
+    Timer { interval: 60000; running: root.count > 0; repeat: true; onTriggered: root.tick++ }
+
     function ago(n) {
+        void root.tick;
         const t = times[n.id]; if (!t) return "";
         const s = Math.floor((Date.now() - t) / 1000);
         if (s < 60) return "ahora";

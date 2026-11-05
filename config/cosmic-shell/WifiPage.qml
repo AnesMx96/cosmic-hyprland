@@ -12,7 +12,7 @@ ColumnLayout {
     readonly property var dev: Networking.devices.values.find(d => d.type === DeviceType.Wifi) ?? null
     readonly property var nets: dev ? dev.networks.values.slice().filter(n => n.name !== "").sort((a, b) => (b.connected - a.connected) || (b.signalStrength - a.signalStrength)) : []
     property var pending: null
-    onVisibleChanged: if (dev) dev.scannerEnabled = visible
+    onVisibleChanged: { if (dev) dev.scannerEnabled = visible; if (!visible) pending = null; }
 
     RowLayout {
         Layout.fillWidth: true; spacing: 8
@@ -39,7 +39,7 @@ ColumnLayout {
     ListView {
         Layout.fillWidth: true; Layout.fillHeight: true
         clip: true; spacing: 6
-        model: page.nets
+        model: ScriptModel { values: page.nets }
         boundsBehavior: Flickable.StopAtBounds
         add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1; duration: Theme.anim } }
         delegate: Rectangle {
@@ -92,6 +92,7 @@ ColumnLayout {
                             Text { anchors.verticalCenter: parent.verticalCenter; text: "Contraseña"; color: Theme.faint; font: pw.font; visible: pw.text === "" }
                             onAccepted: { item.modelData.connectWithPsk(text); text = ""; page.pending = null; }
                             Keys.onEscapePressed: page.pending = null
+                            onVisibleChanged: if (!visible) text = ""
                         }
                     }
                     IconButton { icon: "arrow_forward"; bgIdle: Theme.primary; fg: Theme.fgOnPrimary; onClicked: pw.accepted() }

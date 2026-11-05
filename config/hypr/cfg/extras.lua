@@ -37,9 +37,6 @@ hl.gesture({ fingers = 3, direction = "down", action = "float" })
 -- Animaciones especiales para menús y scratchpad -------------
 hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4, bezier = "cosmic", style = "slidevert" })
 hl.layer_rule({ name = "rofi-anim", match = { namespace = "rofi" }, animation = "popin 90%" })
-for _, ns in ipairs({ "swaync-control-center", "swaync-notification-window" }) do
-    hl.layer_rule({ name = ns .. "-glass", match = { namespace = ns }, blur = true, ignore_alpha = 0.1, animation = "slide right" })
-end
 hl.layer_rule({ name = "osd-blur", match = { namespace = "swayosd" }, blur = true, ignore_alpha = 0.1, animation = "popin 85%" })
 
 -- Reglas de ventanas -------------------------------------------
@@ -64,7 +61,7 @@ hl.window_rule({ name = "video-opaco", match = { class = "^(mpv|vlc|org.kde.haru
 hl.window_rule({ name = "fullscreen-opaco", match = { fullscreen = true }, opacity = "1.0 override 1.0 override" })
 hl.window_rule({ name = "juegos-tearing", match = { class = "^(steam_app_.*|gamescope|.*\\.exe)$" }, immediate = true, opacity = "1.0 override 1.0 override" })
 
--- Atajos NUEVOS (solo teclas que estaban libres) ---------------
+-- Utilidades ---------------------------------------------------
 hl.bind("SUPER + N", hl.dsp.exec_cmd("qs -p $HOME/.config/cosmic-shell ipc call cc toggle"), { description = "Centro de notificaciones" })
 hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd(g .. "nightlight.sh"), { description = "Luz nocturna" })
 hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd(g .. "colorpicker.sh"), { description = "Cuentagotas (copia color)" })
@@ -84,6 +81,8 @@ end)
 -- Cosmic Shell (Quickshell): la animación la hace la propia shell
 hl.layer_rule({ name = "cosmic-cc-noanim", match = { namespace = "cosmic-cc" }, no_anim = true })
 hl.layer_rule({ name = "cosmic-popups-noanim", match = { namespace = "cosmic-popups" }, no_anim = true })
+hl.layer_rule({ name = "cosmic-launcher-noanim", match = { namespace = "cosmic-launcher" }, no_anim = true })
+hl.layer_rule({ name = "cosmic-power-noanim", match = { namespace = "cosmic-power" }, no_anim = true })
 
 -- ============================================================
 --  Gestos del touchpad y Alt-Tab inverso

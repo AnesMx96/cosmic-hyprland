@@ -4,10 +4,17 @@ import Quickshell
 
 // Paleta "Cosmic" — azul noche sólido, blanco y acento cian (inspirada en Material You / end-4)
 Singleton {
-    readonly property color bg:          "#0b1222"
-    readonly property color surface:     "#121b31"
-    readonly property color surfaceHi:   "#1a2541"
-    readonly property color surfaceHover:"#212e4f"
+    // sacados del vídeo de fondo: vacío, plasma azul, hielo y polvo de cobre
+    readonly property color vacuum:       "#030819"
+    readonly property color ice:         "#D4E9F6"
+    readonly property color ember:       "#c98a6b"
+    readonly property color bg:          "#060c20"
+    // translúcidos: dentro del panel dejan ver el espacio
+    readonly property color surface:     Qt.rgba(0.83, 0.91, 1, 0.06)
+    readonly property color surfaceHi:   Qt.rgba(0.83, 0.91, 1, 0.08)
+    readonly property color surfaceHover:Qt.rgba(0.83, 0.91, 1, 0.14)
+    readonly property color card:        Qt.rgba(0.03, 0.06, 0.15, 0.82)
+    readonly property color cardHover:   Qt.rgba(0.07, 0.11, 0.24, 0.9)
     readonly property color outline:     Qt.rgba(1, 1, 1, 0.08)
     readonly property color edge:        Qt.rgba(1, 1, 1, 0.22)
     readonly property color primary:     "#8cc3ff"

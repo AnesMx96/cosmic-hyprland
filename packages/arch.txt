@@ -6,6 +6,7 @@ hyprsunset
 hyprpicker
 hyprpolkitagent
 xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
 # Shell, barra, menús
 quickshell
 qt6-5compat
@@ -16,6 +17,10 @@ rofi-emoji
 swayosd
 # Terminal y fuentes
 kitty
+breeze-icons
+breeze
+breeze-gtk
+qt6ct
 inter-font
 ttf-jetbrains-mono-nerd
 otf-material-icons
@@ -28,6 +33,8 @@ bluez
 bluez-utils
 blueman
 power-profiles-daemon
+upower
+udisks2
 brightnessctl
 playerctl
 pavucontrol
@@ -42,7 +49,12 @@ python
 imagemagick
 libnotify
 rsync
+socat
+xdg-utils
+curl
+cava
+btop
 # Apps que usan los atajos (cámbialas en cfg/binds.lua si prefieres otras)
-dolphin
+nautilus
 firefox
 gnome-calendar

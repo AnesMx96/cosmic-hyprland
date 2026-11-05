@@ -11,6 +11,10 @@ ColumnLayout {
     readonly property var adapter: Bluetooth.defaultAdapter
     readonly property var devs: Bluetooth.devices.values.slice().sort((a, b) => (b.connected - a.connected) || (b.paired - a.paired))
     onVisibleChanged: if (adapter && adapter.enabled) adapter.discovering = visible
+    Connections {
+        target: page.adapter
+        function onEnabledChanged() { if (page.adapter.enabled && page.visible) page.adapter.discovering = true; }
+    }
 
     RowLayout {
         Layout.fillWidth: true; spacing: 8
@@ -35,7 +39,7 @@ ColumnLayout {
     }
     ListView {
         Layout.fillWidth: true; Layout.fillHeight: true
-        clip: true; spacing: 6; model: page.devs
+        clip: true; spacing: 6; model: ScriptModel { values: page.devs }
         delegate: Rectangle {
             id: d
             required property var modelData

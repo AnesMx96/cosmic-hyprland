@@ -12,16 +12,16 @@ Rectangle {
     signal dismissed()
     implicitHeight: Math.max(66, col.implicitHeight + 24)
     radius: Theme.radiusL
-    color: popup ? Theme.bg : (hover.hovered ? Theme.surfaceHover : Theme.surfaceHi)
-    border.width: popup ? 1 : 0
-    border.color: notif?.urgency === NotificationUrgency.Critical ? Theme.danger : Theme.edge
+    color: popup ? Theme.bg : (hover.hovered ? Theme.cardHover : Theme.card)
+    border.width: 1
+    border.color: notif?.urgency === NotificationUrgency.Critical ? Theme.danger : popup ? Theme.edge : Theme.outline
     Behavior on color { ColorAnimation { duration: Theme.animFast } }
     HoverHandler { id: hover }
 
     readonly property string iconSrc: {
         if (!notif) return "";
         if (notif.image) return notif.image;
-        if (notif.appIcon) return notif.appIcon.startsWith("/") || notif.appIcon.startsWith("file:") ? notif.appIcon : Quickshell.iconPath(notif.appIcon, true);
+        if (notif.appIcon) return notif.appIcon.startsWith("/") ? "file://" + notif.appIcon : notif.appIcon.startsWith("file:") ? notif.appIcon : Quickshell.iconPath(notif.appIcon, true);
         return notif.desktopEntry ? Quickshell.iconPath(notif.desktopEntry, true) : "";
     }
 

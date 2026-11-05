@@ -133,11 +133,11 @@
     "on-click-middle": "pkill -x rofi || python ~/.config/waybar/scripts/wifi-menu.py"
   },
   "custom/usb": {
-    "exec": "$HOME/.config/waybar/scripts/usb.py status",
+    "exec": "$HOME/.config/waybar/scripts/usb.py watch",
     "return-type": "json",
     "hide-empty-text": true,
     "format": "{text}",
-    "interval": 3,
+    "restart-interval": 5,
     "on-click": "$HOME/.config/waybar/scripts/usb.py open",
     "on-click-right": "$HOME/.config/waybar/scripts/usb.py eject"
   },
@@ -211,7 +211,7 @@
     "tooltip": false
   },
   "custom/launcher": {
-    "format": "󰣇",
+    "format": " ",
     "tooltip-format": "Aplicaciones",
     "on-click": "$HOME/.config/hypr/scripts/glass/launcher.sh",
     "on-click-right": "pkill -x rofi || rofi -show drun -theme ~/.config/rofi/launcher-grid.rasi"

@@ -5,12 +5,6 @@ hl.layer_rule({
     blur = true,
     ignore_alpha = 0.02,
 })
-hl.layer_rule({
-    name = "menus-blur",
-    match = { namespace = "^(rofi|swaync-.*)$" },
-    blur = true,
-    ignore_alpha = 0.1,
-})
 
 -- Estándar del ejemplo oficial
 hl.window_rule({
@@ -32,7 +26,7 @@ hl.window_rule({
 })
 hl.window_rule({
     name = "picture-in-picture",
-    match = { title = "^(Picture-in-Picture|Picture in picture)$" },
+    match = { title = "^(Picture-in-Picture|Picture in picture|Imagen en imagen)$" },
     float = true,
     pin = true,
 })
