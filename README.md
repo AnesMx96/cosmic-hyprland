@@ -176,7 +176,7 @@ install.sh         instalador
 
 Hyprgravity es la versión 2.0 de Cosmic, y por eso algunas carpetas y opciones de Nix siguen llamándose `cosmic`.
 
-Inspirado en [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland), [caelestia](https://github.com/caelestia-dots/shell), [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell) y [HyDE](https://github.com/HyDE-Project/HyDE). No hay código copiado de ellos; la idea fue suya.
+Inspirado en [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland), [caelestia](https://github.com/caelestia-dots/shell), [DankMaterialShell](https://github.com/duxlabs-dev/dux-shell) y [HyDE](https://github.com/HyDE-Project/HyDE). No hay código copiado de ellos; la idea fue suya.
 El fondo incluido (`config/hypr/assets/cosmic-wallpaper.jpg`) es original y se genera con ImageMagick.
 
 ## Licencia
