@@ -53,7 +53,7 @@ Hyprland 0.57 · Lua · Quickshell · EndeavourOS, Arch y NixOS
 Abre una terminal, pega esto y pulsa Enter:
 
 ```bash
-git clone https://github.com/AnesMx96/cosmic-hyprland.git ~/hyprgravity && ~/hyprgravity/install.sh
+git clone https://github.com/AnesMx96/hyprgravity.git ~/hyprgravity && ~/hyprgravity/install.sh
 ```
 
 Solo te hará **una pregunta**, y te pedirá tu contraseña cuando haga falta. Al terminar:
@@ -92,7 +92,7 @@ Opciones: `--yes` (sin preguntas), `--dry-run` (muestra lo que haría sin tocar 
 ```nix
 # flake.nix de tu sistema
 {
-  inputs.cosmic.url = "github:AnesMx96/cosmic-hyprland";
+  inputs.cosmic.url = "github:AnesMx96/hyprgravity";
 
   outputs = { nixpkgs, home-manager, cosmic, ... }: {
     nixosConfigurations.mipc = nixpkgs.lib.nixosSystem {
